@@ -85,5 +85,6 @@ def benchmark_matmul_untyped(ni: Int ,nj: Int, nk: Int,nl: Int):
             pass
 
     var secs = benchmark.run[test_fn](max_runtime_secs=0.5).mean()
+    _ = (A, B, C, D)
     return secs
     
