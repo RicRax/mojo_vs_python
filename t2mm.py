@@ -3,7 +3,9 @@ import numpy as np
 
 from matrix import Matrix
 
-def kernel_2mm(ni, nj, nk, nl):
+
+
+def init_2mm(ni,nj,nk,nl):
     alpha = 32412
     beta = 2123
     A = Matrix(list(np.zeros((ni,nk))), ni, nk)
@@ -26,8 +28,15 @@ def kernel_2mm(ni, nj, nk, nl):
     for i in range(ni):
         for j in range(nl):
             D[i,j] = (i * (j + 2)) / nk
-    
+
     tmp = Matrix(list(np.zeros((ni, nj))), ni, nj)
+
+    return A, B, C, D, alpha, beta, tmp
+
+
+
+def kernel_2mm(A, B, C, D, alpha, beta, tmp, ni, nj, nk, nl):
+    
 
     # D := alpha*A*B*C + beta*D
     for i in range(ni):
