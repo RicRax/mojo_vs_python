@@ -1,25 +1,5 @@
+from matrix import matrix_init
 import benchmark
-
-fn matrix_getitem(self: object, i: object) raises -> object:
-    return self.value[i]
-
-
-fn matrix_setitem(self: object, i: object, value: object) raises -> object:
-    self.value[i] = value
-    return None
-
-
-fn matrix_append(self: object, value: object) raises -> object:
-    self.value.append(value)
-    return None
-
-
-fn matrix_init(rows: Int, cols: Int) raises -> object:
-    var value = object([])
-    return object(
-        Attr("value", value), Attr("__getitem__", matrix_getitem), Attr("__setitem__", matrix_setitem),
-        Attr("rows", rows), Attr("cols", cols), Attr("append", matrix_append),
-    )
 
 
 def kernel_2mm(A, B, C, D, ni, nj, nk, nl, alpha, beta, tmp):
@@ -37,7 +17,7 @@ def kernel_2mm(A, B, C, D, ni, nj, nk, nl, alpha, beta, tmp):
 
     return D
 
-def benchmark_matmul_untyped(ni: Int ,nj: Int, nk: Int,nl: Int):
+def benchmark_t2mm(ni: Int ,nj: Int, nk: Int,nl: Int):
     A = matrix_init(ni,nk)
     B = matrix_init(nk,nj)
     C = matrix_init(nl,nj)
