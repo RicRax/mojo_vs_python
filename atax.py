@@ -9,6 +9,7 @@ def init_atax(nx, ny):
 
     for i in range(ny):
         x_vector[i] = i * math.pi
+
     for i in range(nx):
         for j in range(ny):
             A_matrix[i][j] = ((i * (j + 1)) / nx)
@@ -18,8 +19,8 @@ def init_atax(nx, ny):
 def kernel_atax(nx, ny, A, x, y, tmp):
     for i in range(ny):
         y[i] = 0
+
     for i in range(nx):
-        tmp[i] = 0
         for j in range(ny):
             tmp[i] = tmp[i] + A[i][j] * x[j]
         for j in range(ny):
