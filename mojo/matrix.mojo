@@ -13,9 +13,6 @@ fn matrix_append(self: object, value: object) raises -> object:
     self.value.append(value)
     return None
 
-fn truediv(self: object, rhs: object)raises -> object:
-    return self.value / rhs
-
 
 fn matrix_init(rows: Int, cols: Int) raises -> object:
     var value = object([])

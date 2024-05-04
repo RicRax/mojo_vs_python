@@ -5,7 +5,7 @@ from t3mm_types import kernel_3mm_types
 from t2mm_types import benchmark_2mm_types
 from t2mm_types import kernel_2mm_types
 from atax import benchmark_atax
-from adi import benchmark_adi
+from fdtd import benchmark_fdtd
 
 
 def main():
@@ -24,5 +24,5 @@ def main():
     atax_secs = benchmark_atax(10,10)
     print("atax took", atax_secs, "seconds")
 
-    adi_secs = benchmark_atax(10,10)
-    print("adi took", adi_secs, "seconds")
+    fdtd_secs = benchmark_fdtd(10,10,10)
+    print("fdtd took", fdtd_secs, "seconds")

@@ -2,10 +2,10 @@ from matrix import matrix_init
 from matrix_types import Matrix
 import benchmark
 
-def kernel_fdtd_2d(tmax, nx: Int, ny: Int, ex, ey, hz, _fict_):
+def kernel_fdtd_2d(tmax: Int, nx: Int, ny: Int, ex, ey, hz, _fict_):
     for t in range(tmax):
         for j in range(ny):
-            ey[0][j] = _fict_[t]
+            ey[0][j] = _fict_[0][t]
         
         for i in range(1, nx):
             for j in range(ny):
@@ -20,31 +20,44 @@ def kernel_fdtd_2d(tmax, nx: Int, ny: Int, ex, ey, hz, _fict_):
                 hz[i][j] = hz[i][j] - 0.7 * (ex[i][j+1] - ex[i][j] + ey[i+1][j] - ey[i][j])
 
 
+
 def benchmark_fdtd(tmax: Int, nx: Int, ny: Int):
     ex = matrix_init(nx,ny)
     ey = matrix_init(nx,ny)
     hz = matrix_init(nx,ny)
     _fict_ = matrix_init(nx,ny)
 
-    for i in range(ni):
-        a_row = object([])
-        for j in range(nk):
-            a_row.append((i * j) / ni)
-        A.append(a_row)
+    for i in range(nx):
+        ex_row = object([])
+        ey_row = object([])
+        hz_row = object([])
+        for j in range(ny):
+            ex_row.append((i * (j + 1)) / nx)
+            ey_row.append((i * (j + 2)) / ny)
+            hz_row.append((i * (j + 3)) / nx)
+        ex.append(ex_row)
+        ey.append(ey_row)
+        hz.append(hz_row)
 
-    tmp_row = object([])
-    for i in range(ny):
-        tmp_row.append(0.0)
-    tmp.append(tmp_row)
+
+    _fict_row = object([])
+    for i in range(tmax):
+        _fict_row.append(0)
+    _fict_.append(_fict_row)
+
+    _ = kernel_fdtd_2d(tmax, nx, ny, ex, ey , hz , _fict_)
 
     @parameter
     fn test_fn():
         try:
-            _ = kernel_3mm(ni, nj, nk, nl, nm, A, B, C, D, E, F, G )
+            _ = kernel_fdtd_2d(tmax, nx, ny, ex, ey , hz , _fict_)
         except:
             print("error occurred")
 
+
     var secs = benchmark.run[test_fn](max_runtime_secs=0.5).mean()
-    _ = (A, B, C, D, E, F, G)
+    _ = (ex, ey, hz, _fict_)
+
     return secs
+
     
