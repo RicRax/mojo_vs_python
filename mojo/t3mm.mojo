@@ -1,5 +1,5 @@
-
 from matrix import matrix_init
+from matrix_types import Matrix
 import benchmark
 
 def kernel_3mm(ni, nj, nk, nl, nm, A, B, C, D, E, F, G):
@@ -19,7 +19,8 @@ def kernel_3mm(ni, nj, nk, nl, nm, A, B, C, D, E, F, G):
             for k in range(nj):
                 G[i][j] += E[i][k] * F[k][j]
 
-    return G
+
+
 
 def benchmark_t3mm(ni: Int ,nj: Int, nk: Int,nl: Int, nm: Int):
     A = matrix_init(ni, nk)
@@ -35,6 +36,7 @@ def benchmark_t3mm(ni: Int ,nj: Int, nk: Int,nl: Int, nm: Int):
         for j in range(nk):
             a_row.append((i * j) / ni)
         A.append(a_row)
+
     
     for i in range(nk):
         b_row = object([])
@@ -77,7 +79,7 @@ def benchmark_t3mm(ni: Int ,nj: Int, nk: Int,nl: Int, nm: Int):
         try:
             _ = kernel_3mm(ni, nj, nk, nl, nm, A, B, C, D, E, F, G )
         except:
-            pass
+            print("error occurred")
 
     var secs = benchmark.run[test_fn](max_runtime_secs=0.5).mean()
     _ = (A, B, C, D, E, F, G)

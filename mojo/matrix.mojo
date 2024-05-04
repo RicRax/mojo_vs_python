@@ -1,4 +1,3 @@
-
 import benchmark
 
 fn matrix_getitem(self: object, i: object) raises -> object:
@@ -13,6 +12,9 @@ fn matrix_setitem(self: object, i: object, value: object) raises -> object:
 fn matrix_append(self: object, value: object) raises -> object:
     self.value.append(value)
     return None
+
+fn truediv(self: object, rhs: object)raises -> object:
+    return self.value / rhs
 
 
 fn matrix_init(rows: Int, cols: Int) raises -> object:
