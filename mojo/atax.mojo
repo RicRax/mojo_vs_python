@@ -1,6 +1,5 @@
 from matrix import matrix_init
 import benchmark
-from collections.vector import InlinedFixedVector
 from python import Python
 
 def kernel_atax(nx, ny, A, x, y, tmp):
@@ -20,11 +19,6 @@ def benchmark_atax(nx: Int, ny: Int):
     y_vector = matrix_init(ny, 1)
     A = matrix_init(nx, ny)
     tmp = matrix_init(nx, 1)
-    #tmp = InlinedFixedVector[FloatLiteral](nx)
-    #math = Python.import_module("math")
-
-    #pi = math.pi
-    #pi = pi.to_float64()
 
     x_row = object([])
     for i in range(ny):

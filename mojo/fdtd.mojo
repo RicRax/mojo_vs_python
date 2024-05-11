@@ -1,4 +1,5 @@
 from matrix import matrix_init
+from time import now
 from matrix_types import Matrix
 import benchmark
 
@@ -45,19 +46,13 @@ def benchmark_fdtd(tmax: Int, nx: Int, ny: Int):
         _fict_row.append(0)
     _fict_.append(_fict_row)
 
-    _ = kernel_fdtd_2d(tmax, nx, ny, ex, ey , hz , _fict_)
+    var prev = now()
+    kernel_fdtd_2d(tmax, nx, ny, ex, ey , hz , _fict_)
+    var curr = now()
+    var res = curr - prev
 
-    @parameter
-    fn test_fn():
-        try:
-            _ = kernel_fdtd_2d(tmax, nx, ny, ex, ey , hz , _fict_)
-        except:
-            print("error occurred")
-
-
-    var secs = benchmark.run[test_fn](max_runtime_secs=0.5).mean()
     _ = (ex, ey, hz, _fict_)
 
-    return secs
+    return res
 
     

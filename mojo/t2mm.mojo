@@ -1,4 +1,5 @@
 from matrix import matrix_init
+from time import now
 import benchmark
 
 
@@ -57,14 +58,12 @@ def benchmark_t2mm(ni: Int ,nj: Int, nk: Int,nl: Int):
     alpha = 32412
     beta = 2123
 
-    @parameter
-    fn test_fn():
-        try:
-            _ = kernel_2mm(A, B, C, D, ni, nj, nk, nl, alpha, beta, tmp)
-        except:
-            pass
 
-    var secs = benchmark.run[test_fn](max_runtime_secs=0.5).mean()
+    var prev = now()
+    kernel_2mm(A,B,C,D,ni,nj,nk,nl,alpha,beta,tmp)
+    var curr = now()
+    var res = curr - prev
     _ = (A, B, C, D)
-    return secs
+
+    return res
     

@@ -1,7 +1,14 @@
 from matrix_types import Matrix
+from time import now
 import benchmark
 
-fn kernel_3mm_types(ni: Int, nj: Int, nk: Int, nl: Int, nm: Int, A:Matrix, B:Matrix, C:Matrix, D:Matrix, E:Matrix, F:Matrix, G:Matrix) raises:
+alias ni = 100
+alias nj = 100
+alias nk = 100
+alias nl = 100
+alias nm = 100
+
+fn kernel_3mm_types(ni: Int, nj: Int, nk: Int, nl: Int, nm: Int, A:Matrix, B:Matrix, C:Matrix, D:Matrix, E:Matrix, F:Matrix, G:Matrix):
     for i in range(ni):
         for j in range(nj):
             for k in range(nk):
@@ -16,53 +23,24 @@ fn kernel_3mm_types(ni: Int, nj: Int, nk: Int, nl: Int, nm: Int, A:Matrix, B:Mat
         for j in range(nl):
             for k in range(nj):
                 G[i,j] += E[i,k] * F[k,j]
-    
 
-    
 
-alias ni = 10
-alias nj = 10
-alias nk = 10
-alias nl = 10
-alias nm = 10
 
 @always_inline
-fn benchmark_t3mm_typed[
-    func: fn (Int, Int, Int, Int, Int, Matrix, Matrix, Matrix, Matrix, Matrix, Matrix, Matrix) raises -> None]() -> object:
-    var A = Matrix[ni,nk]()
-    var B = Matrix[nk,nj]()
-    var C = Matrix[nj,nm]()
-    var D = Matrix[nm,nl]()
-    var E = Matrix[ni,nj]()
-    var F = Matrix[nj,nl]()
-    var G = Matrix[ni,nl]()
+fn benchmark_t3mm_typed() -> object:
 
-    for i in range(ni):
-        for j in range(nk):
-            A[i,j] = (i * j) / ni
-            
+    var A = Matrix[ni,nk]().rand()
+    var B = Matrix[nk,nj]().rand()
+    var C = Matrix[nj,nm]().rand()
+    var D = Matrix[nm,nl]().rand()
+    var E = Matrix[ni,nj]().rand()
+    var F = Matrix[nj,nl]().rand()
+    var G = Matrix[ni,nl]().rand()
 
-    for i in range(nk):
-        for j in range(nj):
-            B[i,j] = (i * (j + 1)) / nj
-            
-    for i in range(nj):
-        for j in range(nm):
-            C[i,j] = (i * (j + 3)) / nl
-            
-    for i in range(nm):
-        for j in range(nl):
-            D[i,j] = (i * (j + 2)) / nk
-
-    @always_inline
-    @parameter
-    fn test_fn():
-        try:
-            _ = func(ni, nj, nk, nl, nm, A, B, C, D, E, F, G)
-        except:
-            print("error occurred")
-
-    var secs = benchmark.run[test_fn](max_runtime_secs=0.5).mean()
+    var prev = now()
+    kernel_3mm_types(ni, nj, nk, nl, nm, A, B, C, D, E, F, G)
+    var curr = now()
+    var res = curr - prev
 
     A.data.free()
     B.data.free()
@@ -72,6 +50,6 @@ fn benchmark_t3mm_typed[
     F.data.free()
     G.data.free()
 
-    return secs
+    return res
 
     
