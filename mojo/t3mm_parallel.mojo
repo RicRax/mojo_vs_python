@@ -5,11 +5,11 @@ from algorithm import parallelize
 import benchmark
 
 alias nelts = simdwidthof[DType.float32]() * 2
-alias ni = 100
-alias nj = 100
-alias nk = 100
-alias nl = 100
-alias nm = 100
+alias ni = 500
+alias nj = 500
+alias nk = 500
+alias nl = 500
+alias nm = 500
 
 fn kernel_3mm_parallel(A:Matrix, B:Matrix, C:Matrix, D:Matrix, E:Matrix, F:Matrix, G:Matrix) :
     @parameter
@@ -46,27 +46,29 @@ fn kernel_3mm_parallel(A:Matrix, B:Matrix, C:Matrix, D:Matrix, E:Matrix, F:Matri
 
 @always_inline
 fn benchmark_t3mm_parallel() -> object:
-    var A = Matrix[ni,nk]().rand()
-    var B = Matrix[nk,nj]().rand()
-    var C = Matrix[nj,nm]().rand()
-    var D = Matrix[nm,nl]().rand()
-    var E = Matrix[ni,nj]()
-    var F = Matrix[nj,nl]()
-    var G = Matrix[ni,nl]()
+    var res = 0
+    for i in range(10):
+        var A = Matrix[ni,nk]().rand()
+        var B = Matrix[nk,nj]().rand()
+        var C = Matrix[nj,nm]().rand()
+        var D = Matrix[nm,nl]().rand()
+        var E = Matrix[ni,nj]()
+        var F = Matrix[nj,nl]()
+        var G = Matrix[ni,nl]()
 
-    var prev = now()
-    kernel_3mm_parallel(A, B, C, D, E, F, G)
-    var curr = now()
-    var res = curr - prev
+        var prev = now()
+        kernel_3mm_parallel(A, B, C, D, E, F, G)
+        var curr = now()
+        res += curr - prev
 
-    A.data.free()
-    B.data.free()
-    C.data.free()
-    D.data.free()
-    E.data.free()
-    F.data.free()
-    G.data.free()
-
+        A.data.free()
+        B.data.free()
+        C.data.free()
+        D.data.free()
+        E.data.free()
+        F.data.free()
+        G.data.free()
+    res = res // 10
     return res
 
     

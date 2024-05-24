@@ -33,33 +33,34 @@ fn kernel_3mm_vector(A:Matrix, B:Matrix, C:Matrix, D:Matrix, E:Matrix, F:Matrix,
                 G.store(i, j, G[i, j] + E.load[nelts](i,k) * F.load[nelts](k, j))
             vectorize[dot3, nelts, size = nm]()
 
-    
-
-    
-
 
 @always_inline
 fn benchmark_t3mm_vector() -> object:
-    var A = Matrix[ni,nk]().rand()
-    var B = Matrix[nk,nj]().rand()
-    var C = Matrix[nj,nm]().rand()
-    var D = Matrix[nm,nl]().rand()
-    var E = Matrix[ni,nj]()
-    var F = Matrix[nj,nl]()
-    var G = Matrix[ni,nl]()
 
-    var prev = now()
-    kernel_3mm_vector(A, B, C, D, E, F, G)
-    var curr = now()
-    var res = curr - prev
+    var res = 0
+    for i in range(10):
+        var A = Matrix[ni,nk]().rand()
+        var B = Matrix[nk,nj]().rand()
+        var C = Matrix[nj,nm]().rand()
+        var D = Matrix[nm,nl]().rand()
+        var E = Matrix[ni,nj]()
+        var F = Matrix[nj,nl]()
+        var G = Matrix[ni,nl]()
 
-    A.data.free()
-    B.data.free()
-    C.data.free()
-    D.data.free()
-    E.data.free()
-    F.data.free()
-    G.data.free()
+        var prev = now()
+        kernel_3mm_vector(A, B, C, D, E, F, G)
+        var curr = now()
+        res += curr - prev
+
+        A.data.free()
+        B.data.free()
+        C.data.free()
+        D.data.free()
+        E.data.free()
+        F.data.free()
+        G.data.free()
+    res = res // 10
+
 
     return res
 

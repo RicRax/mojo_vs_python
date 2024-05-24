@@ -1,4 +1,3 @@
-import math
 import numpy as np
 
 def init_fdtd(tmax, nx, ny):

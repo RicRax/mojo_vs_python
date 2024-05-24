@@ -29,26 +29,30 @@ fn kernel_3mm_types(ni: Int, nj: Int, nk: Int, nl: Int, nm: Int, A:Matrix, B:Mat
 @always_inline
 fn benchmark_t3mm_typed() -> object:
 
-    var A = Matrix[ni,nk]().rand()
-    var B = Matrix[nk,nj]().rand()
-    var C = Matrix[nj,nm]().rand()
-    var D = Matrix[nm,nl]().rand()
-    var E = Matrix[ni,nj]().rand()
-    var F = Matrix[nj,nl]().rand()
-    var G = Matrix[ni,nl]().rand()
+    var res = 0
+    for i in range(10):
+        var A = Matrix[ni,nk]().rand()
+        var B = Matrix[nk,nj]().rand()
+        var C = Matrix[nj,nm]().rand()
+        var D = Matrix[nm,nl]().rand()
+        var E = Matrix[ni,nj]().rand()
+        var F = Matrix[nj,nl]().rand()
+        var G = Matrix[ni,nl]().rand()
 
-    var prev = now()
-    kernel_3mm_types(ni, nj, nk, nl, nm, A, B, C, D, E, F, G)
-    var curr = now()
-    var res = curr - prev
+        var prev = now()
+        kernel_3mm_types(ni, nj, nk, nl, nm, A, B, C, D, E, F, G)
+        var curr = now()
+        res += curr - prev
 
-    A.data.free()
-    B.data.free()
-    C.data.free()
-    D.data.free()
-    E.data.free()
-    F.data.free()
-    G.data.free()
+        A.data.free()
+        B.data.free()
+        C.data.free()
+        D.data.free()
+        E.data.free()
+        F.data.free()
+        G.data.free()
+    
+    res = res // 10
 
     return res
 

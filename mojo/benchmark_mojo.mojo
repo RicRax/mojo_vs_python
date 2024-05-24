@@ -1,12 +1,17 @@
 from t2mm import benchmark_t2mm
+from t2mm_types import benchmark_2mm_types
+from t2mm_vector import benchmark_t2mm_vector
+from t2mm_parallel import benchmark_t2mm_parallel
 from t3mm import benchmark_t3mm
 from t3mm_types import benchmark_t3mm_typed
 from t3mm_vector import benchmark_t3mm_vector
 from t3mm_parallel import benchmark_t3mm_parallel
-from t2mm_types import benchmark_2mm_types
 from atax import benchmark_atax
 from fdtd import benchmark_fdtd
-
+from fdtd_types import benchmark_fdtd_types
+from fdtd_vector import benchmark_fdtd_vector
+from jacobi import benchmark_jacobi
+from jacobi_types import benchmark_jacobi_types
 
 def main():
     t2mm_secs = benchmark_t2mm(100,100,100,100)
@@ -15,21 +20,37 @@ def main():
     t2mm_typed_secs = benchmark_2mm_types()
     print("2mm took", t2mm_typed_secs, "seconds with types")
 
-    t3mm_vector_secs = benchmark_t3mm_vector()
-    print("3mm vectorized took", t3mm_vector_secs, "seconds")
+    t2mm_vector_secs = benchmark_t2mm_vector()
+    print("2mm vectorized took", t2mm_vector_secs, "seconds")
 
-    t3mm_typed_secs = benchmark_t3mm_typed()
-    print("3mm took", t3mm_typed_secs, "seconds with types")
+    #FASTER ONLY WITH LARGE SIZES
+    t2mm_parallel_secs = benchmark_t2mm_parallel()
+    print("2mm parallel took", t2mm_parallel_secs, "seconds")
 
     t3mm_secs = benchmark_t3mm(100,100,100,100,100)
     print("3mm took", t3mm_secs, "seconds without types")
 
-    atax_secs = benchmark_atax(100,100)
-    print("atax took", atax_secs, "seconds")
+    t3mm_typed_secs = benchmark_t3mm_typed()
+    print("3mm took", t3mm_typed_secs, "seconds with types")
+
+    t3mm_vector_secs = benchmark_t3mm_vector()
+    print("3mm vectorized took", t3mm_vector_secs, "seconds")
+
+    #FASTER ONLY WITH LARGE SIZES
+    t3mm_parallel_secs = benchmark_t3mm_parallel()
+    print("3mm parallel took", t3mm_parallel_secs, "seconds")
 
     fdtd_secs = benchmark_fdtd(10,10,10)
     print("fdtd took", fdtd_secs, "seconds")
 
+    fdtd_typed_secs = benchmark_fdtd_types()
+    print("fdtd took", fdtd_typed_secs, "seconds with types")
 
-    t3mm_parallel_secs = benchmark_t3mm_parallel()
-    print("3mm parallel took", t3mm_parallel_secs, "seconds")
+    fdtd_vector_secs = benchmark_fdtd_vector()
+    print("fdtd vectorized took", fdtd_vector_secs, "seconds")
+
+    jacobi_secs = benchmark_jacobi(10)
+    print("jacobi took", jacobi_secs, "seconds")
+
+    jacobi_typed_secs = benchmark_jacobi_types()
+    print("jacobi took", jacobi_typed_secs, "seconds with types")

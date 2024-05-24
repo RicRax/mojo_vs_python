@@ -23,36 +23,39 @@ def kernel_fdtd_2d(tmax: Int, nx: Int, ny: Int, ex, ey, hz, _fict_):
 
 
 def benchmark_fdtd(tmax: Int, nx: Int, ny: Int):
-    ex = matrix_init(nx,ny)
-    ey = matrix_init(nx,ny)
-    hz = matrix_init(nx,ny)
-    _fict_ = matrix_init(nx,ny)
+    var res = 0
+    for i in range(10):
+        ex = matrix_init(nx,ny)
+        ey = matrix_init(nx,ny)
+        hz = matrix_init(nx,ny)
+        _fict_ = matrix_init(nx,ny)
 
-    for i in range(nx):
-        ex_row = object([])
-        ey_row = object([])
-        hz_row = object([])
-        for j in range(ny):
-            ex_row.append((i * (j + 1)) / nx)
-            ey_row.append((i * (j + 2)) / ny)
-            hz_row.append((i * (j + 3)) / nx)
-        ex.append(ex_row)
-        ey.append(ey_row)
-        hz.append(hz_row)
+        for i in range(nx):
+            ex_row = object([])
+            ey_row = object([])
+            hz_row = object([])
+            for j in range(ny):
+                ex_row.append((i * (j + 1)) / nx)
+                ey_row.append((i * (j + 2)) / ny)
+                hz_row.append((i * (j + 3)) / nx)
+            ex.append(ex_row)
+            ey.append(ey_row)
+            hz.append(hz_row)
 
 
-    _fict_row = object([])
-    for i in range(tmax):
-        _fict_row.append(0)
-    _fict_.append(_fict_row)
+        _fict_row = object([])
+        for i in range(tmax):
+            _fict_row.append(0)
+        _fict_.append(_fict_row)
 
-    var prev = now()
-    kernel_fdtd_2d(tmax, nx, ny, ex, ey , hz , _fict_)
-    var curr = now()
-    var res = curr - prev
+        var prev = now()
+        kernel_fdtd_2d(tmax, nx, ny, ex, ey , hz , _fict_)
+        var curr = now()
+        res += curr - prev
 
-    _ = (ex, ey, hz, _fict_)
-
+        _ = (ex, ey, hz, _fict_)
+    
+    res = res // 10
     return res
 
     
