@@ -18,6 +18,8 @@ from floyd_types import benchmark_floyd_types
 from floyd_vector import benchmark_floyd_vector
 from floyd_parallel import benchmark_floyd_parallel
 from cov import benchmark_cov
+from cov_types import benchmark_cov_types
+from cov_vector import benchmark_cov_vector
 
 def main():
     """
@@ -80,3 +82,9 @@ def main():
 
     cov_secs = benchmark_cov(10, 10)
     print("covariance took", cov_secs, "seconds")
+
+    cov_typed_secs = benchmark_cov_types()
+    print("covariance took", cov_typed_secs, "seconds with types")
+
+    cov_vector_secs = benchmark_cov_vector()
+    print("covariance vectorized took", cov_vector_secs, "seconds")
