@@ -21,3 +21,10 @@ fn matrix_init(rows: Int, cols: Int) raises -> object:
         Attr("rows", rows), Attr("cols", cols), Attr("append", matrix_append),
     )
 
+
+fn matrix_3d(rows: Int, cols: Int) raises -> object:
+    var value = object([])
+    return object(
+        Attr("value", value), Attr("__getitem__", matrix_getitem), Attr("__setitem__", matrix_setitem),
+        Attr("rows", rows), Attr("cols", cols), Attr("append", matrix_append),
+    )

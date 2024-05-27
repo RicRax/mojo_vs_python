@@ -12,15 +12,16 @@ fn kernel_jacobi_2d_vector(A: Matrix, B: Matrix):
         for i in range(1, n - 1):
             @parameter
             fn calc[nelts: Int](j: Int):
-                if (j != 0)
-                B.store(i, j, 0.2 * (A.load[nelts](i, j) + A.load[nelts](i, j-1) + A.load[nelts](i, j+1) + A.load[nelts](i+1, j) + A.load[nelts](i-1, j)))
+                if (j != 0):
+                    B.store(i, j, 0.2 * (A.load[nelts](i, j) + A.load[nelts](i, j-1) + A.load[nelts](i, j+1) + A.load[nelts](i+1, j) + A.load[nelts](i-1, j)))
             vectorize[calc, nelts, size = n - 1]()
 
         for i in range(1, n - 1):
             @parameter
             fn calc2[nelts: Int](j: Int):
-                A.store(i, j, B.load[nelts](i, j))
-            vectorize[calc2, nelts, size = n - 2]()
+                if (j != 0):
+                    A.store(i, j, B.load[nelts](i, j))
+            vectorize[calc2, nelts, size = n - 1]()
 
 fn benchmark_jacobi_vector() -> object:
     var res = 0

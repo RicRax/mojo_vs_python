@@ -12,8 +12,15 @@ from fdtd_types import benchmark_fdtd_types
 from fdtd_vector import benchmark_fdtd_vector
 from jacobi import benchmark_jacobi
 from jacobi_types import benchmark_jacobi_types
+from jacobi_vector import benchmark_jacobi_vector
+from floyd import benchmark_floyd
+from floyd_types import benchmark_floyd_types
+from floyd_vector import benchmark_floyd_vector
+from floyd_parallel import benchmark_floyd_parallel
+from cov import benchmark_cov
 
 def main():
+    """
     t2mm_secs = benchmark_t2mm(100,100,100,100)
     print("2mm took", t2mm_secs, "seconds without types")
 
@@ -54,3 +61,22 @@ def main():
 
     jacobi_typed_secs = benchmark_jacobi_types()
     print("jacobi took", jacobi_typed_secs, "seconds with types")
+
+    jacobi_vector_secs = benchmark_jacobi_vector()
+    print("jacobi vectorized took", jacobi_vector_secs, "seconds")
+
+    floyd_secs = benchmark_floyd(10)
+    print("floyd took", floyd_secs, "seconds")
+
+    floyd_typed_secs = benchmark_floyd_types()
+    print("floyd took", floyd_typed_secs, "seconds with types")
+
+    floyd_vector_secs = benchmark_floyd_vector()
+    print("floyd vectorized took", floyd_vector_secs, "seconds")
+
+    floyd_parallel_secs = benchmark_floyd_parallel()
+    print("floyd parallel took", floyd_parallel_secs, "seconds")
+    """
+
+    cov_secs = benchmark_cov(10, 10)
+    print("covariance took", cov_secs, "seconds")
