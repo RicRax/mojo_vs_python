@@ -5,9 +5,9 @@ from algorithm import stencil
 import benchmark
 
 alias nelts = simdwidthof[DType.float32]() * 2
-alias tmax = 10
-alias nx = 10
-alias ny = 10
+alias tmax = 500
+alias nx = 200
+alias ny = 240
 
 fn kernel_fdtd_2d_vector(ex: Matrix, ey: Matrix, hz: Matrix, _fict_: Matrix):
     for t in range(tmax):
@@ -36,7 +36,7 @@ fn kernel_fdtd_2d_vector(ex: Matrix, ey: Matrix, hz: Matrix, _fict_: Matrix):
 
 
 
-fn benchmark_fdtd_vector() -> object:
+fn benchmark_fdtd_vector() -> Float32:
     var res = 0
     for i in range(10):
         var ex = Matrix[nx,ny]().rand()

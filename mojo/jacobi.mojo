@@ -13,7 +13,7 @@ def kernel_jacobi_2d_imper(tsteps: Int, n: Int, A, B):
                 A[i, j] = B[i, j]
 
 
-def benchmark_jacobi(n: Int):
+def benchmark_jacobi(n: Int) -> Float32:
     var res = 0
     for i in range(10):
         A = matrix_init(n,n)
@@ -29,7 +29,7 @@ def benchmark_jacobi(n: Int):
             B.append(b_row)
 
         var prev = now()
-        kernel_jacobi_2d_imper(10,n,A,B)
+        kernel_jacobi_2d_imper(500,n,A,B)
         var curr = now()
         res += curr - prev
 

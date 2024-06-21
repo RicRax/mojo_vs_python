@@ -3,7 +3,7 @@ from matrix_types import Matrix
 from algorithm import parallelize, vectorize
 import benchmark
 
-alias n = 10
+alias n = 2800
 alias nelts = simdwidthof[DType.float32]() * 2
 
 fn kernel_floyd_warshall_parallel(path: Matrix):
@@ -18,7 +18,7 @@ fn kernel_floyd_warshall_parallel(path: Matrix):
         parallelize[calc_row](n, 8)
 
 @always_inline
-fn benchmark_floyd_parallel() -> object:
+fn benchmark_floyd_parallel() -> Float32:
     var res = 0
     for _ in range(100):
         var path = Matrix[n, n]().rand()

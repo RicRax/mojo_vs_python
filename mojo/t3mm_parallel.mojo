@@ -5,11 +5,11 @@ from algorithm import parallelize
 import benchmark
 
 alias nelts = simdwidthof[DType.float32]() * 2
-alias ni = 500
-alias nj = 500
-alias nk = 500
-alias nl = 500
-alias nm = 500
+alias ni = 800
+alias nj = 800
+alias nk = 800
+alias nl = 800
+alias nm = 800
 
 fn kernel_3mm_parallel(A:Matrix, B:Matrix, C:Matrix, D:Matrix, E:Matrix, F:Matrix, G:Matrix) :
     @parameter
@@ -45,7 +45,7 @@ fn kernel_3mm_parallel(A:Matrix, B:Matrix, C:Matrix, D:Matrix, E:Matrix, F:Matri
 
 
 @always_inline
-fn benchmark_t3mm_parallel() -> object:
+fn benchmark_t3mm_parallel() -> Float32:
     var res = 0
     for i in range(10):
         var A = Matrix[ni,nk]().rand()

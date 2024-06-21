@@ -2,8 +2,8 @@ from time import now
 from matrix_types import Matrix
 import benchmark
 
-alias tsteps = 10
-alias n = 10
+alias tsteps = 500
+alias n = 1300
 
 fn kernel_jacobi_2d_types(tsteps: Int, n: Int, A: Matrix, B: Matrix):
     for t in range(tsteps):
@@ -15,7 +15,7 @@ fn kernel_jacobi_2d_types(tsteps: Int, n: Int, A: Matrix, B: Matrix):
                 A[i,j] = B[i,j]
 
 
-fn benchmark_jacobi_types() -> object:
+fn benchmark_jacobi_types() -> Float32:
     var res = 0
     for i in range(10):
         var A = Matrix[n,n]().rand()

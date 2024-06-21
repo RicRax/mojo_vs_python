@@ -23,7 +23,7 @@ def kernel_3mm(ni, nj, nk, nl, nm, A, B, C, D, E, F, G):
 
 
 
-def benchmark_t3mm(ni: Int ,nj: Int, nk: Int,nl: Int, nm: Int):
+def benchmark_t3mm(ni: Int ,nj: Int, nk: Int,nl: Int, nm: Int) -> Float32:
     A = matrix_init(ni, nk)
     B = matrix_init(nk, nj)
     C = matrix_init(nj, nm)

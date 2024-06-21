@@ -18,7 +18,7 @@ def kernel_2mm(A, B, C, D, ni, nj, nk, nl, alpha, beta, tmp):
 
     return D
 
-def benchmark_t2mm(ni: Int ,nj: Int, nk: Int,nl: Int):
+def benchmark_t2mm(ni: Int ,nj: Int, nk: Int,nl: Int) -> Float32:
     res = 0
     for i in range(10):
         A = matrix_init(ni,nk)

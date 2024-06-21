@@ -1,7 +1,7 @@
 from matrix_types import Matrix
 from matrix import matrix_init
 from time import now
-from algorithm import vectorize
+from algorithm import vectorize, parallelize
 
 alias m = 1024
 alias n = 1024
@@ -16,14 +16,17 @@ fn kernel_covariance(data: Matrix, mean: Matrix, symmat: Matrix):
         mean[0, j] /= 1.2
 
     # Center the column vectors
-    for i in range(n):
+    @parameter
+    fn p1(i: Int):
         @parameter
         fn center_col[nelts: Int](j: Int):
             data.store(i, j, data.load[nelts](i, j) - mean.load[nelts](0, j))
         vectorize[center_col, nelts, size=m]()
+    parallelize[p1](n,n)
 
     # Calculate the m * m covariance matrix
-    for j1 in range(m):
+    @parameter
+    fn p2(j1: Int):
         for j2 in range(j1, m):
             symmat[j1, j2] = 0.0
             @parameter
@@ -31,8 +34,9 @@ fn kernel_covariance(data: Matrix, mean: Matrix, symmat: Matrix):
                 symmat.store(j1,j2, symmat[j1,j2] + data.load[nelts](i, j1) * data.load[nelts](i, j2))
             vectorize[calc_cov, nelts, size=n]()
             symmat[j2, j1] = symmat[j1, j2]
+    parallelize[p2](m,m)
 
-fn benchmark_cov_vector() -> Float32:
+fn benchmark_cov_parallel() -> Float32:
     var res = 0
     for i in range(10):
         var data = Matrix[m, n]().rand()

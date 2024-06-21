@@ -11,7 +11,7 @@ def kernel_floyd_warshall(n, path):
                         path[i][j] = path[i][k] + path[k][j]
 
 
-def benchmark_floyd(n: Int):
+def benchmark_floyd(n: Int) -> Float32:
     var res = 0
     for i in range(10):
         path = matrix_init(n,n)

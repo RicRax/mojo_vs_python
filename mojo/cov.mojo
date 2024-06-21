@@ -23,7 +23,7 @@ def kernel_covariance(m: Int, n: Int, data, mean, symmat):
             symmat[j2, j1] = symmat[j1, j2]
 
 
-def benchmark_cov(m: Int, n:Int):
+def benchmark_cov(m: Int, n:Int) -> Float32:
     var res = 0
     for i in range(10):
         data = matrix_init(m,n)

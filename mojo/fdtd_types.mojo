@@ -2,9 +2,9 @@ from time import now
 from matrix_types import Matrix
 import benchmark
 
-alias tmax = 10
-alias nx = 10
-alias ny = 10
+alias tmax = 500
+alias nx = 200
+alias ny = 240
 
 fn kernel_fdtd_2d_types(tmax: Int, nx: Int, ny: Int, ex: Matrix, ey: Matrix, hz: Matrix, _fict_: Matrix):
     for t in range(tmax):
@@ -25,7 +25,7 @@ fn kernel_fdtd_2d_types(tmax: Int, nx: Int, ny: Int, ex: Matrix, ey: Matrix, hz:
 
 
 
-fn benchmark_fdtd_types() -> object:
+fn benchmark_fdtd_types() -> Float32:
     var res = 0
     for i in range(10):
         var ex = Matrix[nx,ny]().rand()

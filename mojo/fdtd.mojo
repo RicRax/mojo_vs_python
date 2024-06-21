@@ -22,7 +22,7 @@ def kernel_fdtd_2d(tmax: Int, nx: Int, ny: Int, ex, ey, hz, _fict_):
 
 
 
-def benchmark_fdtd(tmax: Int, nx: Int, ny: Int):
+def benchmark_fdtd(tmax: Int, nx: Int, ny: Int) -> Float32:
     var res = 0
     for i in range(10):
         ex = matrix_init(nx,ny)

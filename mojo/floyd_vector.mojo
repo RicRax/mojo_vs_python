@@ -4,7 +4,7 @@ from algorithm import vectorize
 import benchmark
 
 alias nelts = simdwidthof[DType.float32]() * 2
-alias n = 10
+alias n = 2800
 
 fn kernel_floyd_warshall(path: Matrix):
     for k in range(n):
@@ -18,7 +18,7 @@ fn kernel_floyd_warshall(path: Matrix):
 
 
 @always_inline
-fn benchmark_floyd_vector() -> object:
+fn benchmark_floyd_vector() -> Float32:
     var res = 0
     for i in range(10):
         var path = Matrix[n,n]().rand()

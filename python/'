@@ -1,0 +1,96 @@
+from timeit import timeit
+from t2mm import kernel_2mm, init_2mm, kernel_2mm_numba, kernel_2mm_numpy
+from t3mm import kernel_3mm, init_3mm, kernel_3mm_numba, kernel_3mm_numpy
+from fdtd import init_fdtd, kernel_fdtd_2d, kernel_fdtd_2d_numba, kernel_fdtd_2d_numpy
+from jacobi import (
+    init_jacobi,
+    kernel_jacobi_2d_imper,
+    kernel_jacobi_2d_imper_numba,
+    kernel_jacobi_2d_imper_numpy,
+)
+from floyd import (
+    init_floyd,
+    kernel_floyd_warshall,
+    kernel_floyd_warshall_numba,
+    kernel_floyd_warshall_numpy,
+)
+from cov import (
+    init_cov,
+    kernel_covariance,
+    kernel_covariance_numba,
+    kernel_covariance_numpy,
+)
+
+
+def benchmark_python():
+    A, B, C, D, alpha, beta, tmp = init_2mm(500, 500, 500, 500)
+    secs = timeit(
+        lambda: kernel_2mm(A, B, C, D, alpha, beta, tmp, 500, 500, 500, 500), number=1
+    )
+    print(f"2mm took {secs} seconds")
+
+    A, B, C, D, alpha, beta, tmp = init_2mm(500, 500, 500, 500)
+    secs = timeit(
+        lambda: kernel_2mm_numba(A, B, C, D, alpha, beta, tmp, 500, 500, 500, 500),
+        number=1,
+    )
+    print(f"2mm took {secs} seconds with numba")
+
+    A, B, C, D, alpha, beta, tmp = init_2mm(500, 500, 500, 500)
+    secs = timeit(
+        lambda: kernel_2mm_numpy(A, B, C, D, alpha, beta, tmp),
+        number=1,
+    )
+    print(f"2mm took {secs} seconds with numpy")
+
+    A, B, C, D, E, F, G = init_3mm(500, 500, 500, 500, 500)
+    secs = timeit(
+        lambda: kernel_3mm(500, 500, 500, 500, 500, A, B, C, D, E, F, G), number=1
+    )
+    print(f"3mm took {secs} seconds")
+
+    A, B, C, D, E, F, G = init_3mm(500, 500, 500, 500, 500)
+    secs = timeit(
+        lambda: kernel_3mm_numba(500, 500, 500, 500, 500, A, B, C, D, E, F, G), number=1
+    )
+    print(f"3mm took {secs} seconds with numba")
+
+    ex, ey, hz, _fict_ = init_fdtd(100, 100, 100)
+    secs = timeit(lambda: kernel_fdtd_2d(100, 100, 100, ex, ey, hz, _fict_), number=10)
+    print(f"fdtd took {secs} seconds")
+
+    ex, ey, hz, _fict_ = init_fdtd(100, 100, 100)
+    secs = timeit(
+        lambda: kernel_fdtd_2d_numba(100, 100, 100, ex, ey, hz, _fict_), number=10
+    )
+    print(f"fdtd took {secs} seconds with numba")
+
+    A, B = init_jacobi(100)
+    secs = timeit(lambda: kernel_jacobi_2d_imper(100, 100, A, B), number=10)
+    print(f"jacobi took {secs} seconds")
+
+    A, B = init_jacobi(100)
+    secs = timeit(lambda: kernel_jacobi_2d_imper_numba(100, 100, A, B), number=10)
+    print(f"jacobi took {secs} seconds with numba")
+    """
+
+    path = init_floyd(100)
+    secs = timeit(lambda: kernel_floyd_warshall(100, path), number=10)
+    print(f"floyd took {secs} seconds")
+
+    path = init_floyd(100)
+    secs = timeit(lambda: kernel_floyd_warshall_numba(100, path), number=10)
+    print(f"floyd took {secs} seconds with numba")
+
+    data, mean, symmat = init_cov(100, 100)
+    secs = timeit(lambda: kernel_covariance(100, 100, data, mean, symmat), number=10)
+    print(f"covariance took {secs} seconds")
+
+    data, mean, symmat = init_cov(100, 100)
+    secs = timeit(lambda: kernel_covariance_numba(100, 100, data, mean, symmat), number=10)
+    print(f"covariance took {secs} seconds with numba")
+    """
+
+
+if __name__ == "__main__":
+    benchmark_python()

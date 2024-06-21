@@ -2,8 +2,8 @@ from matrix_types import Matrix
 from matrix import matrix_init
 from time import now
 
-alias m = 10
-alias n = 10
+alias m = 1024
+alias n = 1024
 
 fn kernel_covariance(data: Matrix, mean: Matrix, symmat: Matrix):
     # Determine mean of column vectors of input data matrix
@@ -27,7 +27,7 @@ fn kernel_covariance(data: Matrix, mean: Matrix, symmat: Matrix):
             symmat[j2, j1] = symmat[j1, j2]
 
 
-fn benchmark_cov_types() -> object:
+fn benchmark_cov_types() -> Float32:
     var res = 0
     for i in range(10):
         var data = Matrix[m,n]().rand()

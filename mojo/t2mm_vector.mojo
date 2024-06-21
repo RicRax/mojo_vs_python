@@ -5,11 +5,11 @@ from algorithm import parallelize
 import benchmark
 
 alias nelts = simdwidthof[DType.float32]() * 2
-alias ni = 100
-alias nj = 100
-alias nk = 100
-alias nl = 100
-alias nm = 100
+alias ni = 800
+alias nj = 800
+alias nk = 800
+alias nl = 800
+alias nm = 800
 
 fn kernel_2mm_vector(A:Matrix, B:Matrix, C:Matrix, D:Matrix, alpha:Int, beta:Int, tmp:Matrix) :
     for i in range(ni):
@@ -30,7 +30,7 @@ fn kernel_2mm_vector(A:Matrix, B:Matrix, C:Matrix, D:Matrix, alpha:Int, beta:Int
 
 
 @always_inline
-fn benchmark_t2mm_vector() -> object:
+fn benchmark_t2mm_vector() -> Float32:
 
     var res = 0
     for i in range(10):

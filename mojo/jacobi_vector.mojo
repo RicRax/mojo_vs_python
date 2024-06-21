@@ -4,8 +4,8 @@ from matrix_types import Matrix
 import benchmark
 
 alias nelts = simdwidthof[DType.float32]() * 2
-alias tsteps = 10
-alias n = 10
+alias tsteps = 500
+alias n = 1300
 
 fn kernel_jacobi_2d_vector(A: Matrix, B: Matrix):
     for t in range(tsteps):
@@ -23,7 +23,7 @@ fn kernel_jacobi_2d_vector(A: Matrix, B: Matrix):
                     A.store(i, j, B.load[nelts](i, j))
             vectorize[calc2, nelts, size = n - 1]()
 
-fn benchmark_jacobi_vector() -> object:
+fn benchmark_jacobi_vector() -> Float32:
     var res = 0
     for i in range(10):
         var A = Matrix[n, n]().rand()
